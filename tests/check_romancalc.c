@@ -7,13 +7,18 @@ START_TEST(test_romancalc_create)
   RomanCalc *calc;
   calc = romancalc_create("III");
   ck_assert_str_eq(romancalc_value(calc), "III");
-  romancalc_free(calc);  
+  romancalc_free(calc);
 }
 END_TEST
 
 START_TEST(test_romancalc_simple_add)
 {
   RomanCalc *calc;
+  calc = romancalc_create("III");
+  ck_assert_str_eq(romancalc_value(calc), "III");
+  romancalc_add(calc, "III");
+  ck_assert_str_eq(romancalc_value(calc), "VI");
+  romancalc_free(calc);
 }
 END_TEST
 

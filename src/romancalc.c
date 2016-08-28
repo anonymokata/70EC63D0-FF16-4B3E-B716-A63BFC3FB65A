@@ -24,3 +24,8 @@ char *romancalc_value(RomanCalc *calc)
 {
   return calc->value;
 }
+
+void romancalc_add(RomanCalc *calc, char *romannumeral)
+{
+  
+}
