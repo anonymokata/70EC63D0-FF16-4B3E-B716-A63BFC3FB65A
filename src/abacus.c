@@ -32,3 +32,26 @@ void abacus_free(Abacus *abacus)
 {
   free(abacus);
 }
+
+void abacus_init_value(Abacus *abacus, char *romannumeral)
+{
+  int current = 0;
+  int previous = 0;
+  int next = current+1;
+  int length = strlen(romannumeral);
+  int validlen = strspn(romannumeral, "MDCLXVI");
+  if (validlen == length)
+  {
+    printf("This is a Roman Number.");
+  } else {
+    printf("This is NOT a roman number");
+  }
+}
+
+int abacus_get_count(Abacus *abacus, int index)
+{
+  if (index < 6 && index>=0){
+    return abacus->count[index];
+  }
+  return 0;
+}
