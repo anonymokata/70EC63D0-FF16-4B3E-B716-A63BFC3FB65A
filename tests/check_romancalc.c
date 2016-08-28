@@ -5,6 +5,9 @@
 START_TEST(test_romancalc_create)
 {
   RomanCalc *calc;
+  calc = romancalc_create("III");
+  ck_assert_str_eq(romancalc_value(calc), "III");
+  romancalc_free(calc);  
 }
 END_TEST
 

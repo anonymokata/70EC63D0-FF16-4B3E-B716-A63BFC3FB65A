@@ -4,4 +4,5 @@
 typedef struct RomanCalc RomanCalc;
 
 
+
 #endif /* ROMANCALC_H */
