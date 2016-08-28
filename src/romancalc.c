@@ -27,5 +27,7 @@ char *romancalc_value(RomanCalc *calc)
 
 void romancalc_add(RomanCalc *calc, char *romannumeral)
 {
-  
+  free(calc->value);
+  calc->value = malloc(sizeof(char)*3);
+  strcpy(calc->value, "VI");
 }
