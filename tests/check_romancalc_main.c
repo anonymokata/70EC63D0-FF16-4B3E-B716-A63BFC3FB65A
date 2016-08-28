@@ -13,7 +13,8 @@ int main(void)
 
   sr = srunner_create(make_romancalc_suite());
   // Add other suites with srunner_add_suite(sr, make_suite())
-
+  srunner_add_suite(sr, make_abacus_suite());
+  
   srunner_run_all(sr, CK_VERBOSE);
   // Add cleanup methods here
 

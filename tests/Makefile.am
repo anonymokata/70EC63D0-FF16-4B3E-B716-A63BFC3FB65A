@@ -2,12 +2,13 @@
 
 TESTS = \
   check_romancalc
-  
+
 check_PROGRAMS = check_romancalc
 
 check_romancalc_SOURCES = \
   check_romancalc.h \
   check_romancalc.c \
+  check_abacus.c \
   check_romancalc_main.c
 
 check_romancalc_CFLAGS = @CHECK_CFLAGS@
