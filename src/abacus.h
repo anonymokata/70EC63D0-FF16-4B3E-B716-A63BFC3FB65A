@@ -2,6 +2,7 @@
 #define ABACUS_H
 
 typedef struct Abacus Abacus;
+#define MAX_SYMBOLS 7
 
 Abacus *abacus_create(void);
 void abacus_free(Abacus *abacus);

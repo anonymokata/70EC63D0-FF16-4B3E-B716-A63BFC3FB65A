@@ -4,9 +4,9 @@
 
 struct Abacus
 {
-  char symbols[6];
-  bool multi[6];
-  int count[6];
+  char symbols[MAX_SYMBOLS];
+  bool multi[MAX_SYMBOLS];
+  int count[MAX_SYMBOLS];
 };
 
 Abacus *abacus_create(void)
@@ -21,7 +21,8 @@ Abacus *abacus_create(void)
   abacus->multi[3]=false;
   abacus->multi[4]=true;
   abacus->multi[5]=false;
-  for (i=0;i<6;++i)
+  abacus->multi[6]=true;
+  for (i=0;i<MAX_SYMBOLS;++i)
   {
     abacus->count[i]=0;
   }
@@ -35,14 +36,27 @@ void abacus_free(Abacus *abacus)
 
 void abacus_init_value(Abacus *abacus, char *romannumeral)
 {
-  int current = 0;
-  int previous = 0;
-  int next = current+1;
+  int curSymIndex = 0;
+  int prevSymIndex = 0;
+  int nextSymIndex = curSymIndex+1;
+  int numIndex = 0;
   int length = strlen(romannumeral);
   int validlen = strspn(romannumeral, "MDCLXVI");
   if (validlen == length)
   {
-    printf("This is a Roman Number.");
+
+    while (curSymIndex < MAX_SYMBOLS)
+    {
+      if (numIndex > length) break;
+      if (romannumeral[numIndex] == abacus->symbols[curSymIndex])
+      {
+        ++abacus->count[curSymIndex];
+        ++numIndex;
+      } else {
+        ++curSymIndex;
+      }
+    }
+
   } else {
     printf("This is NOT a roman number");
   }
@@ -50,7 +64,7 @@ void abacus_init_value(Abacus *abacus, char *romannumeral)
 
 int abacus_get_count(Abacus *abacus, int index)
 {
-  if (index < 6 && index>=0){
+  if (index < MAX_SYMBOLS && index>=0){
     return abacus->count[index];
   }
   return 0;
