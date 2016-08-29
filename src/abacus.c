@@ -37,14 +37,14 @@ void abacus_free(Abacus *abacus)
 void abacus_init_value(Abacus *abacus, char *romannumeral)
 {
   int curSymIndex = 0;
-  int prevSymIndex = 0;
   int nextSymIndex = curSymIndex+1;
+  int nextNextSymIndex=curSymIndex+2;
   int numIndex = 0;
   int length = strlen(romannumeral);
   int validlen = strspn(romannumeral, "MDCLXVI");
   if (validlen == length)
   {
-
+    printf("Enter value: romannumeral=%s\n", romannumeral);
     while (curSymIndex < MAX_SYMBOLS)
     {
       if (numIndex > length) break;
@@ -52,8 +52,32 @@ void abacus_init_value(Abacus *abacus, char *romannumeral)
       {
         ++abacus->count[curSymIndex];
         ++numIndex;
+      } else if (romannumeral[numIndex+1] == abacus->symbols[curSymIndex]) {
+        if (romannumeral[numIndex] == abacus->symbols[nextSymIndex])
+        {
+            if (abacus->multi[curSymIndex]) {
+              ++abacus->count[nextSymIndex];
+            } else {
+              abacus->count[nextSymIndex]=abacus->count[nextSymIndex]+4;
+            }
+        } else if (romannumeral[numIndex] == abacus->symbols[nextNextSymIndex]) {
+          if (abacus->multi[curSymIndex]) {
+            ++abacus->count[nextSymIndex];
+            abacus->count[nextNextSymIndex]=abacus->count[nextNextSymIndex]+4;
+            curSymIndex=nextNextSymIndex+1;
+            nextSymIndex=curSymIndex+1;
+            nextNextSymIndex=curSymIndex+2;
+            if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
+            if (nextNextSymIndex>MAX_SYMBOLS) nextNextSymIndex=MAX_SYMBOLS;
+          }
+        }
+        numIndex=numIndex+2;
       } else {
         ++curSymIndex;
+        nextSymIndex=curSymIndex+1;
+        nextNextSymIndex=curSymIndex+2;
+        if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
+        if (nextNextSymIndex>MAX_SYMBOLS) nextNextSymIndex=MAX_SYMBOLS;
       }
     }
 

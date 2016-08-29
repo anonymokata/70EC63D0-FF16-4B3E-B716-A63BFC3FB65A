@@ -51,6 +51,44 @@ START_TEST(test_abacus_init_simple_value)
     abacus_free(abacus);
 }
 END_TEST
+START_TEST(test_abacus_init_complex_value)
+{
+    int index;
+    int count;
+    Abacus *abacus;
+    abacus = abacus_create();
+    ck_assert_ptr_ne(abacus, NULL);
+    abacus_init_value(abacus, "MCMXLIV");
+    for (index=0;index<MAX_SYMBOLS;++index)
+    {
+      count=abacus_get_count(abacus,index);
+      switch (index) {
+        case 0:
+          ck_assert_int_eq(count, 1);
+          break;
+        case 1:
+          ck_assert_int_eq(count, 1);
+          break;
+        case 2:
+          ck_assert_int_eq(count, 4);
+          break;
+        case 3:
+          ck_assert_int_eq(count, 0);
+          break;
+        case 4:
+          ck_assert_int_eq(count, 4);
+          break;
+        case 5:
+          ck_assert_int_eq(count, 0);
+          break;
+        case 6:
+          ck_assert_int_eq(count, 4);
+          break;
+      }
+    }
+    abacus_free(abacus);
+}
+END_TEST
 
 Suite * make_abacus_suite(void)
 {
@@ -63,6 +101,7 @@ Suite * make_abacus_suite(void)
   tc_core = tcase_create("Core");
   tcase_add_test(tc_core, test_abacus_create);
   tcase_add_test(tc_core, test_abacus_init_simple_value);
+  tcase_add_test(tc_core, test_abacus_init_complex_value);
   suite_add_tcase(s, tc_core);
 
   return s;
