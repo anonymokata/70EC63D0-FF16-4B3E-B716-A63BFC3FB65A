@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdbool.h>
 
 #include "abacus.h"
@@ -12,7 +13,7 @@ struct Abacus
 Abacus *abacus_create(void)
 {
   int i;
-  Abacus *abacus;
+  Abacus *abacus=NULL;
   abacus = malloc(sizeof(Abacus));
   strcpy(abacus->symbols, "MDCLXVI");
   abacus->multi[0]=true;
@@ -44,7 +45,6 @@ void abacus_init_value(Abacus *abacus, char *romannumeral)
   int validlen = strspn(romannumeral, "MDCLXVI");
   if (validlen == length)
   {
-    printf("Enter value: romannumeral=%s\n", romannumeral);
     while (curSymIndex < MAX_SYMBOLS)
     {
       if (numIndex > length) break;
@@ -92,4 +92,84 @@ int abacus_get_count(Abacus *abacus, int index)
     return abacus->count[index];
   }
   return 0;
+}
+
+// Caller must free the char* pointer.
+char *abacus_get_result(Abacus *abacus)
+{
+  int curSymIndex = 0;
+  int nextSymIndex = curSymIndex+1;
+  int prevSymIndex=0;
+  int resultIndex=0;
+  int countIndex=0;
+  // the resultString will be less than MAX_RESULT_LENGTH
+  char *resultString=malloc(sizeof(char)*MAX_RESULT_LENGTH);
+  // set the contents to zeros so we always have a null terminated string.
+  memset(resultString, '\0', sizeof(resultString));
+
+  while (curSymIndex < MAX_SYMBOLS)
+  {
+    if (abacus->count[curSymIndex] == 0)
+    {
+      curSymIndex++;
+      prevSymIndex=curSymIndex-1;
+      nextSymIndex=curSymIndex+1;
+      if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
+      continue;
+    }
+    if (curSymIndex == 0)
+    {
+      for (countIndex=0;countIndex<abacus->count[curSymIndex];++countIndex)
+      {
+        resultString[resultIndex]=abacus->symbols[curSymIndex];
+        resultIndex++;
+      }
+      curSymIndex++;
+      prevSymIndex=curSymIndex-1;
+      nextSymIndex=curSymIndex+1;
+      if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
+      continue;
+    }
+    if (abacus->multi[curSymIndex])
+    {
+      if (abacus->count[curSymIndex] == 4)
+      {
+        resultString[resultIndex]=abacus->symbols[curSymIndex];
+        resultIndex++;
+        resultString[resultIndex]=abacus->symbols[prevSymIndex];
+        resultIndex++;
+      } else {
+        for (countIndex=0;countIndex<abacus->count[curSymIndex];++countIndex)
+        {
+          resultString[resultIndex]=abacus->symbols[curSymIndex];
+          resultIndex++;
+        }
+      }
+      curSymIndex++;
+      prevSymIndex=curSymIndex-1;
+      nextSymIndex=curSymIndex+1;
+      if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
+      continue;
+    }
+    if (!abacus->multi[curSymIndex])
+    {
+      if (abacus->count[nextSymIndex] == 4)
+      {
+        resultString[resultIndex]=abacus->symbols[nextSymIndex];
+        resultIndex++;
+        resultString[resultIndex]=abacus->symbols[prevSymIndex];
+        resultIndex++;
+        curSymIndex=curSymIndex+2;
+      } else {
+        resultString[resultIndex]=abacus->symbols[curSymIndex];
+        resultIndex++;
+        curSymIndex++;
+      }
+      prevSymIndex=curSymIndex-1;
+      nextSymIndex=curSymIndex+1;
+      if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
+      continue;
+    }
+  }
+  return resultString;
 }

@@ -4,7 +4,7 @@
 
 START_TEST(test_romancalc_create)
 {
-  RomanCalc *calc;
+  RomanCalc *calc=NULL;
   calc = romancalc_create("III");
   ck_assert_str_eq(romancalc_value(calc), "III");
   romancalc_free(calc);
@@ -13,7 +13,7 @@ END_TEST
 
 START_TEST(test_romancalc_simple_add)
 {
-  RomanCalc *calc;
+  RomanCalc *calc=NULL;
   calc = romancalc_create("III");
   ck_assert_str_eq(romancalc_value(calc), "III");
   romancalc_add(calc, "III");
@@ -24,9 +24,9 @@ END_TEST
 
 Suite * make_romancalc_suite(void)
 {
-  Suite *s;
-  TCase *tc_core;
-  TCase *tc_add;
+  Suite *s=NULL;
+  TCase *tc_core=NULL;
+  TCase *tc_add=NULL;
 
   s = suite_create("RomanCalc");
 

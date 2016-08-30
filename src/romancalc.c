@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "romancalc.h"
 
 struct RomanCalc
@@ -7,7 +8,7 @@ struct RomanCalc
 
 RomanCalc * romancalc_create(char *romannumeral)
 {
-  RomanCalc *calc;
+  RomanCalc *calc=NULL;
   calc = malloc(sizeof(RomanCalc));
   calc->value = malloc(sizeof(romannumeral));
   strcpy(calc->value, romannumeral);
