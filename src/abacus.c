@@ -43,46 +43,45 @@ void abacus_init_value(Abacus *abacus, char *romannumeral)
   int numIndex = 0;
   int length = strlen(romannumeral);
   int validlen = strspn(romannumeral, "MDCLXVI");
-  if (validlen == length)
+  if (validlen != length)
   {
-    while (curSymIndex < MAX_SYMBOLS)
+    printf("This is NOT a roman number");
+    return;
+  }
+
+  while (curSymIndex < MAX_SYMBOLS)
+  {
+    if (numIndex > length) break;
+    if (romannumeral[numIndex] == abacus->symbols[curSymIndex])
     {
-      if (numIndex > length) break;
-      if (romannumeral[numIndex] == abacus->symbols[curSymIndex])
+      ++abacus->count[curSymIndex];
+      ++numIndex;
+      continue;
+    }
+    if (romannumeral[numIndex+1] == abacus->symbols[curSymIndex]) {
+      if (romannumeral[numIndex] == abacus->symbols[nextSymIndex])
       {
-        ++abacus->count[curSymIndex];
-        ++numIndex;
-      } else if (romannumeral[numIndex+1] == abacus->symbols[curSymIndex]) {
-        if (romannumeral[numIndex] == abacus->symbols[nextSymIndex])
-        {
-            if (abacus->multi[curSymIndex]) {
-              ++abacus->count[nextSymIndex];
-            } else {
-              abacus->count[nextSymIndex]=abacus->count[nextSymIndex]+4;
-            }
-        } else if (romannumeral[numIndex] == abacus->symbols[nextNextSymIndex]) {
           if (abacus->multi[curSymIndex]) {
             ++abacus->count[nextSymIndex];
-            abacus->count[nextNextSymIndex]=abacus->count[nextNextSymIndex]+4;
-            curSymIndex=nextNextSymIndex+1;
-            nextSymIndex=curSymIndex+1;
-            nextNextSymIndex=curSymIndex+2;
-            if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
-            if (nextNextSymIndex>MAX_SYMBOLS) nextNextSymIndex=MAX_SYMBOLS;
+          } else {
+            abacus->count[nextSymIndex]=abacus->count[nextSymIndex]+4;
           }
+          curSymIndex=nextSymIndex+1;
+      } else if (romannumeral[numIndex] == abacus->symbols[nextNextSymIndex]) {
+        if (abacus->multi[curSymIndex]) {
+          ++abacus->count[nextSymIndex];
+          abacus->count[nextNextSymIndex]=abacus->count[nextNextSymIndex]+4;
+          curSymIndex=nextNextSymIndex+1;
         }
-        numIndex=numIndex+2;
-      } else {
-        ++curSymIndex;
-        nextSymIndex=curSymIndex+1;
-        nextNextSymIndex=curSymIndex+2;
-        if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
-        if (nextNextSymIndex>MAX_SYMBOLS) nextNextSymIndex=MAX_SYMBOLS;
       }
+      numIndex=numIndex+2;
+    } else {
+      ++curSymIndex;
     }
-
-  } else {
-    printf("This is NOT a roman number");
+    nextSymIndex=curSymIndex+1;
+    nextNextSymIndex=curSymIndex+2;
+    if (nextSymIndex>MAX_SYMBOLS) nextSymIndex=MAX_SYMBOLS;
+    if (nextNextSymIndex>MAX_SYMBOLS) nextNextSymIndex=MAX_SYMBOLS;
   }
 }
 
