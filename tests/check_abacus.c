@@ -95,6 +95,49 @@ START_TEST(test_abacus_init_complex_value)
     free(result);
 }
 END_TEST
+START_TEST(test_abacus_add_simple_value)
+{
+  int index;
+  int count;
+  Abacus *abacus=NULL;
+  abacus = abacus_create();
+  ck_assert_ptr_ne(abacus, NULL);
+  abacus_init_value(abacus, "XXII");
+  abacus_add_value(abacus, "MCL");
+  for (index=0;index<MAX_SYMBOLS;++index)
+  {
+    count=abacus_get_count(abacus,index);
+    switch (index) {
+      case 0:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 1:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 2:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 3:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 4:
+        ck_assert_int_eq(count, 2);
+        break;
+      case 5:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 6:
+        ck_assert_int_eq(count, 2);
+        break;
+    }
+  }
+  char *result=abacus_get_result(abacus);
+  ck_assert_str_eq(result, "MCLXXII");
+  abacus_free(abacus);
+  free(result);
+
+}
+END_TEST
 
 Suite * make_abacus_suite(void)
 {
