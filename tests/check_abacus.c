@@ -135,7 +135,6 @@ START_TEST(test_abacus_add_simple_value)
   ck_assert_str_eq(result, "MCLXXII");
   abacus_free(abacus);
   free(result);
-
 }
 END_TEST
 
@@ -151,6 +150,7 @@ Suite * make_abacus_suite(void)
   tcase_add_test(tc_core, test_abacus_create);
   tcase_add_test(tc_core, test_abacus_init_simple_value);
   tcase_add_test(tc_core, test_abacus_init_complex_value);
+  tcase_add_test(tc_core, test_abacus_add_simple_value);
   suite_add_tcase(s, tc_core);
 
   return s;

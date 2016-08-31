@@ -176,7 +176,7 @@ char *abacus_get_result(Abacus *abacus)
 void abacus_add_value(Abacus *abacus, char *romannumeral)
 {
   int index;
-
+  int carry;
   Abacus *tmpAbacus=NULL;
   tmpAbacus = abacus_create();
   abacus_init_value(tmpAbacus,romannumeral);
@@ -184,5 +184,6 @@ void abacus_add_value(Abacus *abacus, char *romannumeral)
   {
     abacus->count[index]+=tmpAbacus->count[index];
   }
+
   abacus_free(tmpAbacus);
 }
