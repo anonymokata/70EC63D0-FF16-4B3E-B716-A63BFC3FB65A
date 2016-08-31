@@ -109,16 +109,16 @@ START_TEST(test_abacus_add_simple_value)
     count=abacus_get_count(abacus,index);
     switch (index) {
       case 0:
-        ck_assert_int_eq(count, 0);
+        ck_assert_int_eq(count, 1);
         break;
       case 1:
         ck_assert_int_eq(count, 0);
         break;
       case 2:
-        ck_assert_int_eq(count, 0);
+        ck_assert_int_eq(count, 1);
         break;
       case 3:
-        ck_assert_int_eq(count, 0);
+        ck_assert_int_eq(count, 1);
         break;
       case 4:
         ck_assert_int_eq(count, 2);
