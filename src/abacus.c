@@ -1,11 +1,14 @@
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #include <stdbool.h>
 
 #include "abacus.h"
 
 struct Abacus
 {
-  char symbols[MAX_SYMBOLS];
+  // leave room for terminating zero.
+  char symbols[MAX_SYMBOLS+1];
   bool multi[MAX_SYMBOLS];
   int count[MAX_SYMBOLS];
 };
@@ -103,8 +106,6 @@ char *abacus_get_result(Abacus *abacus)
   int countIndex=0;
   // the resultString will be less than MAX_RESULT_LENGTH
   char *resultString=malloc(sizeof(char)*MAX_RESULT_LENGTH);
-  // set the contents to zeros so we always have a null terminated string.
-  memset(resultString, '\0', sizeof(resultString));
 
   while (curSymIndex < MAX_SYMBOLS)
   {
@@ -170,6 +171,7 @@ char *abacus_get_result(Abacus *abacus)
       continue;
     }
   }
+  resultString[resultIndex]='\0';
   return resultString;
 }
 
@@ -185,5 +187,19 @@ void abacus_add_value(Abacus *abacus, char *romannumeral)
     abacus->count[index]+=tmpAbacus->count[index];
   }
 
+  for (index=MAX_SYMBOLS-1;index>=0;--index)
+  {
+    if (abacus->multi[index]) {
+      if ((abacus->count[index]) > 4) {
+        abacus->count[index-1]++;
+        abacus->count[index]=abacus->count[index]-5;
+      }
+    } else {
+        if ((abacus->count[index]) > 1){
+          abacus->count[index-1]++;
+          abacus->count[index]=abacus->count[index]-2;
+        }
+    }
+  }
   abacus_free(tmpAbacus);
 }
