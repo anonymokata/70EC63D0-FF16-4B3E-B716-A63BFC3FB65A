@@ -5,8 +5,12 @@
 START_TEST(test_romancalc_create)
 {
   RomanCalc *calc=NULL;
+  char *value=NULL;
   calc = romancalc_create("III");
-  ck_assert_str_eq(romancalc_value(calc), "III");
+  value=romancalc_value(calc);
+  ck_assert_str_eq(value, "III");
+  free(value);
+  value=NULL;
   romancalc_free(calc);
 }
 END_TEST
@@ -14,20 +18,34 @@ END_TEST
 START_TEST(test_romancalc_simple_add)
 {
   RomanCalc *calc=NULL;
+  char *value=NULL;
   calc = romancalc_create("III");
-  ck_assert_str_eq(romancalc_value(calc), "III");
+  value=romancalc_value(calc);
+  ck_assert_str_eq(value, "III");
+  free(value);
+  value=NULL;
   romancalc_add(calc, "III");
-  ck_assert_str_eq(romancalc_value(calc), "VI");
+  value=romancalc_value(calc);
+  ck_assert_str_eq(value, "VI");
+  free(value);
+  value=NULL;
   romancalc_free(calc);
 }
 END_TEST
 START_TEST(test_romancalc_complex_add)
 {
   RomanCalc *calc=NULL;
+  char *value=NULL;
   calc = romancalc_create("MCMIII");
-  ck_assert_str_eq(romancalc_value(calc), "MCMIII");
+  value=romancalc_value(calc);
+  ck_assert_str_eq(value, "MCMIII");
+  free(value);
+  value=NULL;
   romancalc_add(calc, "DCXLI");
-  ck_assert_str_eq(romancalc_value(calc), "MMDXLIV");
+  value=romancalc_value(calc);
+  ck_assert_str_eq(value, "MMDXLIV");
+  free(value);
+  value=NULL;
   romancalc_free(calc);
 }
 END_TEST
