@@ -3,6 +3,8 @@
 #include <check.h>
 #include "../src/abacus.h"
 
+#define MAX_VALUE_LENGTH 25
+
 START_TEST(test_abacus_create)
 {
   Abacus *abacus;
@@ -48,7 +50,8 @@ START_TEST(test_abacus_init_simple_value)
           break;
       }
     }
-    char *result=abacus_get_result(abacus);
+    char *result=(char*)malloc(sizeof(char)*MAX_VALUE_LENGTH);
+    ck_assert(abacus_get_result(abacus, result,MAX_VALUE_LENGTH));
     ck_assert_str_eq(result, "XXII");
     abacus_free(abacus);
     free(result);
@@ -89,7 +92,8 @@ START_TEST(test_abacus_init_complex_value)
           break;
       }
     }
-    char *result=abacus_get_result(abacus);
+    char *result=(char*)malloc(sizeof(char)*MAX_VALUE_LENGTH);
+    ck_assert(abacus_get_result(abacus, result,MAX_VALUE_LENGTH));
     ck_assert_str_eq(result, "MCMXLIV");
     abacus_free(abacus);
     free(result);
@@ -131,7 +135,8 @@ START_TEST(test_abacus_add_simple_value)
         break;
     }
   }
-  char *result=abacus_get_result(abacus);
+  char *result=(char*)malloc(sizeof(char)*MAX_VALUE_LENGTH);
+  ck_assert(abacus_get_result(abacus, result,MAX_VALUE_LENGTH));
   ck_assert_str_eq(result, "MCLXXII");
   abacus_free(abacus);
   free(result);
@@ -173,7 +178,8 @@ START_TEST(test_abacus_add_complex_value)
         break;
     }
   }
-  char *result=abacus_get_result(abacus);
+  char *result=(char*)malloc(sizeof(char)*MAX_VALUE_LENGTH);
+  ck_assert(abacus_get_result(abacus, result,MAX_VALUE_LENGTH));
   ck_assert_str_eq(result, "MMMDCCCLXXXVIII");
   abacus_free(abacus);
   free(result);

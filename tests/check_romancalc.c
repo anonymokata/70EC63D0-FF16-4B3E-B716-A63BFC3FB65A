@@ -2,51 +2,54 @@
 #include <check.h>
 #include "../src/romancalc.h"
 
+#define MAX_VALUE_LENGTH 25
+
 START_TEST(test_romancalc_create)
 {
   RomanCalc *calc=NULL;
-  char *value=NULL;
+  char *value=(char*)malloc(sizeof(char)*MAX_VALUE_LENGTH);
+  ck_assert_ptr_ne(value, NULL);
   calc = romancalc_create("III");
-  value=romancalc_value(calc);
+  ck_assert_ptr_ne(calc, NULL);
+  ck_assert(romancalc_value(calc, value, MAX_VALUE_LENGTH));
   ck_assert_str_eq(value, "III");
   free(value);
   value=NULL;
   romancalc_free(calc);
+  calc=NULL;
 }
 END_TEST
 
 START_TEST(test_romancalc_simple_add)
 {
   RomanCalc *calc=NULL;
-  char *value=NULL;
+  char *value=(char*)malloc(sizeof(char)*MAX_VALUE_LENGTH);
+  ck_assert_ptr_ne(value, NULL);
   calc = romancalc_create("III");
-  value=romancalc_value(calc);
-  ck_assert_str_eq(value, "III");
-  free(value);
-  value=NULL;
+  ck_assert_ptr_ne(calc, NULL);
   romancalc_add(calc, "III");
-  value=romancalc_value(calc);
+  ck_assert(romancalc_value(calc, value, MAX_VALUE_LENGTH));
   ck_assert_str_eq(value, "VI");
   free(value);
   value=NULL;
   romancalc_free(calc);
+  calc=NULL;
 }
 END_TEST
 START_TEST(test_romancalc_complex_add)
 {
   RomanCalc *calc=NULL;
-  char *value=NULL;
+  char *value=(char*)malloc(sizeof(char)*MAX_VALUE_LENGTH);
+  ck_assert_ptr_ne(value, NULL);
   calc = romancalc_create("MCMIII");
-  value=romancalc_value(calc);
-  ck_assert_str_eq(value, "MCMIII");
-  free(value);
-  value=NULL;
+  ck_assert_ptr_ne(calc, NULL);
   romancalc_add(calc, "DCXLI");
-  value=romancalc_value(calc);
+  ck_assert(romancalc_value(calc, value, MAX_VALUE_LENGTH));
   ck_assert_str_eq(value, "MMDXLIV");
   free(value);
   value=NULL;
   romancalc_free(calc);
+  calc=NULL;
 }
 END_TEST
 

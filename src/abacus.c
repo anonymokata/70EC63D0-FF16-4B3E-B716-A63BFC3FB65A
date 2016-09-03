@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <stdbool.h>
 
 #include "abacus.h"
 
@@ -17,7 +16,7 @@ Abacus *abacus_create(void)
 {
   int i;
   Abacus *abacus=NULL;
-  abacus = malloc(sizeof(Abacus));
+  abacus = (Abacus*)malloc(sizeof(Abacus));
   strcpy(abacus->symbols, "MDCLXVI");
   abacus->multi[0]=true;
   abacus->multi[1]=false;
@@ -97,15 +96,14 @@ int abacus_get_count(Abacus *abacus, int index)
 }
 
 // Caller must free the char* pointer.
-char *abacus_get_result(Abacus *abacus)
+bool abacus_get_result(Abacus *abacus, char *resultString, int resultLength)
 {
   int curSymIndex = 0;
   int nextSymIndex = curSymIndex+1;
   int prevSymIndex=0;
   int resultIndex=0;
   int countIndex=0;
-  // the resultString will be less than MAX_RESULT_LENGTH
-  char *resultString=malloc(sizeof(char)*MAX_RESULT_LENGTH);
+  bool valueGood=true;
 
   while (curSymIndex < MAX_SYMBOLS)
   {
@@ -123,6 +121,11 @@ char *abacus_get_result(Abacus *abacus)
       {
         resultString[resultIndex]=abacus->symbols[curSymIndex];
         resultIndex++;
+        if (resultIndex >= resultLength-1){
+          valueGood=false;
+          resultIndex=resultLength-1;
+          break;
+        }
       }
       curSymIndex++;
       prevSymIndex=curSymIndex-1;
@@ -136,13 +139,28 @@ char *abacus_get_result(Abacus *abacus)
       {
         resultString[resultIndex]=abacus->symbols[curSymIndex];
         resultIndex++;
+        if (resultIndex >= resultLength-1){
+          valueGood=false;
+          resultIndex=resultLength-1;
+          break;
+        }
         resultString[resultIndex]=abacus->symbols[prevSymIndex];
         resultIndex++;
+        if (resultIndex >= resultLength-1){
+          valueGood=false;
+          resultIndex=resultLength-1;
+          break;
+        }
       } else {
         for (countIndex=0;countIndex<abacus->count[curSymIndex];++countIndex)
         {
           resultString[resultIndex]=abacus->symbols[curSymIndex];
           resultIndex++;
+          if (resultIndex >= resultLength-1){
+            valueGood=false;
+            resultIndex=resultLength-1;
+            break;
+          }
         }
       }
       curSymIndex++;
@@ -157,12 +175,27 @@ char *abacus_get_result(Abacus *abacus)
       {
         resultString[resultIndex]=abacus->symbols[nextSymIndex];
         resultIndex++;
+        if (resultIndex >= resultLength-1){
+          valueGood=false;
+          resultIndex=resultLength-1;
+          break;
+        }
         resultString[resultIndex]=abacus->symbols[prevSymIndex];
         resultIndex++;
+        if (resultIndex >= resultLength-1){
+          valueGood=false;
+          resultIndex=resultLength-1;
+          break;
+        }
         curSymIndex=curSymIndex+2;
       } else {
         resultString[resultIndex]=abacus->symbols[curSymIndex];
         resultIndex++;
+        if (resultIndex >= resultLength-1){
+          valueGood=false;
+          resultIndex=resultLength-1;
+          break;
+        }
         curSymIndex++;
       }
       prevSymIndex=curSymIndex-1;
@@ -172,7 +205,7 @@ char *abacus_get_result(Abacus *abacus)
     }
   }
   resultString[resultIndex]='\0';
-  return resultString;
+  return valueGood;
 }
 
 void abacus_add_value(Abacus *abacus, char *romannumeral)

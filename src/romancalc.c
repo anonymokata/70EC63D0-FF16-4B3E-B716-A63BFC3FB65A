@@ -23,9 +23,9 @@ void romancalc_free(RomanCalc *calc)
   free(calc);
 }
 
-char *romancalc_value(RomanCalc *calc)
+bool romancalc_value(RomanCalc *calc, char *resultString, int resultLength)
 {
-  return abacus_get_result(calc->abacus);
+  return abacus_get_result(calc->abacus, resultString, resultLength);
 }
 
 void romancalc_add(RomanCalc *calc, char *romannumeral)
