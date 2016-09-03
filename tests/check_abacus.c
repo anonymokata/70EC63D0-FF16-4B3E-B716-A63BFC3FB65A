@@ -185,6 +185,49 @@ START_TEST(test_abacus_add_complex_value)
   free(result);
 }
 END_TEST
+START_TEST(test_abacus_subtract_simple_value)
+{
+  int index;
+  int count;
+  Abacus *abacus=NULL;
+  abacus = abacus_create();
+  ck_assert_ptr_ne(abacus, NULL);
+  abacus_init_value(abacus, "XXII");
+  ck_assert(abacus_subtract_value(abacus, "XI"));
+  for (index=0;index<MAX_SYMBOLS;++index)
+  {
+    count=abacus_get_count(abacus,index);
+    switch (index) {
+      case 0:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 1:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 2:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 3:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 4:
+        ck_assert_int_eq(count, 1);
+        break;
+      case 5:
+        ck_assert_int_eq(count, 0);
+        break;
+      case 6:
+        ck_assert_int_eq(count, 1);
+        break;
+    }
+  }
+  char *result=(char*)malloc(sizeof(char)*MAX_VALUE_LENGTH);
+  ck_assert(abacus_get_result(abacus, result,MAX_VALUE_LENGTH));
+  ck_assert_str_eq(result, "XI");
+  abacus_free(abacus);
+  free(result);
+}
+END_TEST
 
 Suite * make_abacus_suite(void)
 {
@@ -200,6 +243,7 @@ Suite * make_abacus_suite(void)
   tcase_add_test(tc_core, test_abacus_init_complex_value);
   tcase_add_test(tc_core, test_abacus_add_simple_value);
   tcase_add_test(tc_core, test_abacus_add_complex_value);
+  tcase_add_test(tc_core, test_abacus_subtract_simple_value);
   suite_add_tcase(s, tc_core);
 
   return s;

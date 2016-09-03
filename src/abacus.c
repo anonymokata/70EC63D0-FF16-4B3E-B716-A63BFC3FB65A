@@ -236,3 +236,20 @@ void abacus_add_value(Abacus *abacus, char *romannumeral)
   }
   abacus_free(tmpAbacus);
 }
+
+bool abacus_subtract_value(Abacus *abacus, char *romannumeral)
+{
+  int index;
+  int borrow;
+  bool operationGood=true;
+  Abacus *tmpAbacus=NULL;
+  tmpAbacus = abacus_create();
+  abacus_init_value(tmpAbacus,romannumeral);
+  for (index=0;index<MAX_SYMBOLS;++index)
+  {
+    abacus->count[index]-=tmpAbacus->count[index];
+  }
+
+  abacus_free(tmpAbacus);
+  return operationGood;
+}
