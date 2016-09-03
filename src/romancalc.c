@@ -28,9 +28,9 @@ bool romancalc_value(RomanCalc *calc, char *resultString, int resultLength)
   return abacus_get_result(calc->abacus, resultString, resultLength);
 }
 
-void romancalc_add(RomanCalc *calc, char *romannumeral)
+bool romancalc_add(RomanCalc *calc, char *romannumeral)
 {
-  abacus_add_value(calc->abacus, romannumeral);
+  return abacus_add_value(calc->abacus, romannumeral);
 }
 bool romancalc_subtract(RomanCalc *calc, char *romannumeral)
 {

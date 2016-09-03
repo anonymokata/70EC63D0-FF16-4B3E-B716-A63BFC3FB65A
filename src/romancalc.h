@@ -9,7 +9,7 @@ RomanCalc *romancalc_create(char *romannumeral);
 void romancalc_free(RomanCalc *calc);
 
 bool romancalc_value(RomanCalc *calc, char *resultString, int resultLength);
-void romancalc_add(RomanCalc *calc, char *romannumeral);
+bool romancalc_add(RomanCalc *calc, char *romannumeral);
 bool romancalc_subtract(RomanCalc *calc, char *romannumeral);
 
 #endif /* ROMANCALC_H */

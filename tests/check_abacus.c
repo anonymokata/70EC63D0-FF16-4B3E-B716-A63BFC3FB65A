@@ -107,7 +107,7 @@ START_TEST(test_abacus_add_simple_value)
   abacus = abacus_create();
   ck_assert_ptr_ne(abacus, NULL);
   abacus_init_value(abacus, "XXII");
-  abacus_add_value(abacus, "MCL");
+  ck_assert(abacus_add_value(abacus, "MCL"));
   for (index=0;index<MAX_SYMBOLS;++index)
   {
     count=abacus_get_count(abacus,index);
@@ -150,7 +150,7 @@ START_TEST(test_abacus_add_complex_value)
   abacus = abacus_create();
   ck_assert_ptr_ne(abacus, NULL);
   abacus_init_value(abacus, "MCMXLIV");
-  abacus_add_value(abacus, "MCMXLIV");
+  ck_assert(abacus_add_value(abacus, "MCMXLIV"));
   for (index=0;index<MAX_SYMBOLS;++index)
   {
     count=abacus_get_count(abacus,index);

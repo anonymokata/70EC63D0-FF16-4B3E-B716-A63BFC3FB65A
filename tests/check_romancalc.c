@@ -27,7 +27,7 @@ START_TEST(test_romancalc_simple_add)
   ck_assert_ptr_ne(value, NULL);
   calc = romancalc_create("III");
   ck_assert_ptr_ne(calc, NULL);
-  romancalc_add(calc, "III");
+  ck_assert(romancalc_add(calc, "III"));
   ck_assert(romancalc_value(calc, value, MAX_VALUE_LENGTH));
   ck_assert_str_eq(value, "VI");
   free(value);
@@ -43,7 +43,7 @@ START_TEST(test_romancalc_complex_add)
   ck_assert_ptr_ne(value, NULL);
   calc = romancalc_create("MCMIII");
   ck_assert_ptr_ne(calc, NULL);
-  romancalc_add(calc, "DCXLI");
+  ck_assert(romancalc_add(calc, "DCXLI"));
   ck_assert(romancalc_value(calc, value, MAX_VALUE_LENGTH));
   ck_assert_str_eq(value, "MMDXLIV");
   free(value);
