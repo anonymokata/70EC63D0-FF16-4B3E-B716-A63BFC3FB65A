@@ -32,3 +32,7 @@ void romancalc_add(RomanCalc *calc, char *romannumeral)
 {
   abacus_add_value(calc->abacus, romannumeral);
 }
+bool romancalc_subtract(RomanCalc *calc, char *romannumeral)
+{
+  return abacus_subtract_value(calc->abacus, romannumeral);
+}
