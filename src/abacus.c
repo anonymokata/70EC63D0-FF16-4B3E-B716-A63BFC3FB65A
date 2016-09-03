@@ -211,7 +211,6 @@ bool abacus_get_result(Abacus *abacus, char *resultString, int resultLength)
 void abacus_add_value(Abacus *abacus, char *romannumeral)
 {
   int index;
-  int carry;
   Abacus *tmpAbacus=NULL;
   tmpAbacus = abacus_create();
   abacus_init_value(tmpAbacus,romannumeral);
@@ -240,7 +239,6 @@ void abacus_add_value(Abacus *abacus, char *romannumeral)
 bool abacus_subtract_value(Abacus *abacus, char *romannumeral)
 {
   int index;
-  int borrow;
   bool operationGood=true;
   Abacus *tmpAbacus=NULL;
   tmpAbacus = abacus_create();
@@ -250,6 +248,25 @@ bool abacus_subtract_value(Abacus *abacus, char *romannumeral)
     abacus->count[index]-=tmpAbacus->count[index];
   }
 
+  for (index=MAX_SYMBOLS-1;index>=0;--index)
+  {
+    if (abacus->multi[index]) {
+      if ((abacus->count[index]) < 0) {
+        if (0 == index) {
+          operationGood=false;
+          abacus->count[index]=0;
+          break;
+        }
+        abacus->count[index-1]--;
+        abacus->count[index]=abacus->count[index]+5;
+      }
+    } else {
+        if ((abacus->count[index]) < 0){
+          abacus->count[index-1]--;
+          abacus->count[index]=abacus->count[index]+2;
+        }
+    }
+  }
   abacus_free(tmpAbacus);
   return operationGood;
 }
