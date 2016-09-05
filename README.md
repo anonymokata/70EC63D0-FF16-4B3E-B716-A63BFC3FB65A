@@ -36,8 +36,7 @@ The command for testing for memory leaks is:
 ```bash
  libtool --mode=execute valgrind --leak-check=full ./tests/check_romancalc
  ```
- 
- ## Future enhancements
+## Future enhancements
  * Take the arrays: symbols and multis out of the abacus structure and make them static elements.
  * Place the build artifacts into a build directory.
  * Place the configuration artifacts into a separate directory in a way that makes it easier to set up .gitignore.
